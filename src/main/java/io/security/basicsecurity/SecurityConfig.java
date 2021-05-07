@@ -28,27 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
 
     protected void configure(HttpSecurity http) throws Exception {
+
         http.authorizeRequests()
                 .anyRequest().authenticated();
 
         http.formLogin();
 
-
-        http.logout()
-                .logoutUrl("/logout")
-                .logoutSuccessUrl("/login")
-                .addLogoutHandler((request, response, authentication) -> {
-                    HttpSession session = request.getSession();
-                    session.invalidate();   /* Request 객체를 통해 Session을 가져온 후 Session 무효화 */
-                })
-                .logoutSuccessHandler((request, response, authentication) -> {
-                    response.sendRedirect("/login");
-                })
-                .deleteCookies("remember-me");
-
         http.rememberMe()
-                .rememberMeParameter("remember")
-                .tokenValiditySeconds(3600)
                 .userDetailsService(userDetailsService);
 
     }
