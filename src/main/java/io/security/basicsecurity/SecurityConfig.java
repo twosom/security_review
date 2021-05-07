@@ -34,8 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.formLogin();
 
-        http.rememberMe()
-                .userDetailsService(userDetailsService);
+
 
     }
 }
