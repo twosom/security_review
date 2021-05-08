@@ -28,16 +28,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
 
-    protected void configure(HttpSecurity http) throws Exception {;
+    protected void configure(HttpSecurity http) throws Exception {
+        ;
 
         http.authorizeRequests()
                 .anyRequest().authenticated();
 
-        http.formLogin();
-
-        http.sessionManagement()
-                .sessionFixation()
-                .changeSessionId()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+        http.formLogin()
+            .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false);
     }
 }
