@@ -34,48 +34,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
 
     @Override
-
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests() /* 자원경로의 범위는 디테일 한게 먼저 */
-                .antMatchers("/login").permitAll()
+
+        http.authorizeRequests()
                 .antMatchers("/user").hasRole("USER")
-                .antMatchers("/admin/pay").hasRole("ADMIN")
-                .antMatchers("/admin/**").access("hasRole('ADMIN') or hasRole('SYS')")
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
 
-        http.formLogin()
-                .successHandler((request, response, authentication) -> {
-                    RequestCache requestCache = new HttpSessionRequestCache();
-                    SavedRequest savedRequest = requestCache.getRequest(request, response);
-                    String redirectUrl = savedRequest.getRedirectUrl();
 
-                    response.sendRedirect(redirectUrl);
-                });
+        http.formLogin();
 
-        http.exceptionHandling()
-//                .authenticationEntryPoint((request, response, authException) -> {
-//                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
-//                    response.sendRedirect("/login");
-//                })
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    response.setStatus(HttpStatus.FORBIDDEN.value());
-                    response.sendRedirect("/denied");
-                });
-    }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("user")
-                .password("{noop}1111") /* {noop} 암호화를 평문으로 */
-                .roles("USER");
-
-        auth.inMemoryAuthentication().withUser("sys")
-                .password("{noop}1111")
-                .roles("SYS", "USER");
-
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password("{noop}1111")
-                .roles("ADMIN", "SYS", "USER");
+//        http.csrf()
+//                .disable();
     }
 }
