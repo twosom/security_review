@@ -25,17 +25,4 @@ public class SecurityController {
         return "home";
     }
 
-    @GetMapping("/thread")
-    public String thread() {
-        new Thread(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                    }
-                }
-        ).start();
-        return "Thread";
-    }
-
 }
