@@ -9,30 +9,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableWebSecurity
 @RequiredArgsConstructor
-@Order(1)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.antMatcher("/admin/**")
-                .authorizeRequests()
-                .anyRequest().authenticated()
-            .and()
-                .httpBasic();
-    }
-}
-
-@Configuration
-@Order(0)
-class SecurityConfig2 extends WebSecurityConfigurerAdapter {
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .anyRequest().permitAll()
-                .and()
-                .formLogin();
+                .anyRequest().authenticated();
+
+        http.formLogin();
     }
 }
-
