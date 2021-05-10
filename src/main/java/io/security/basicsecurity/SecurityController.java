@@ -16,13 +16,12 @@ import javax.servlet.http.HttpSession;
 public class SecurityController {
 
     @GetMapping("/")
-    public String index(HttpSession session) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Authentication authentication1 = ((SecurityContext) session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY))
-                .getAuthentication();
-
-
-        return "home";
+    public String index() {
+        return "Home";
     }
 
+    @GetMapping("/user")
+    public String user() {
+        return "user";
+    }
 }
